@@ -1,0 +1,17 @@
+schema: spec-driven
+
+context: |
+  Nilofar Villa Melaka is a 5-bedroom homestay bungalow in Bemban, Jasin, Melaka.
+  The system has a public customer site and a private admin CRM for the two owners (En. Elyes and Pn. Yati).
+  Bookings are confirmed manually over WhatsApp. The site never takes online payment. Deposits are bank transfers.
+  Running cost must stay at RM0. Hosting is Cloudflare Pages, data is Supabase free tier, public images live in Cloudflare R2, private files live in Supabase Storage.
+  Customer-facing text is Bahasa Melayu. Code, identifiers and specs are English.
+  Every screen must work on phone, tablet, iPad and laptop. Phone is the primary target.
+  The 360 virtual tour is always the last phase.
+  Technical documents avoid em dashes, en dashes and curly quotes.
+
+rules:
+  proposal:
+    - State what is out of scope
+  tasks:
+    - Each task states how it is verified

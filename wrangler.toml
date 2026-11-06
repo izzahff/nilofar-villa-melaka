@@ -1,0 +1,9 @@
+# Cloudflare Pages config for the R2 upload function.
+# Create the bucket first with `npx wrangler r2 bucket create nilofar-images`.
+name = "nilofar-villa-melaka"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-11-01"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "nilofar-images"

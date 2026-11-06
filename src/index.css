@@ -1,0 +1,148 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+
+@theme {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
+
+  --color-ivory: #faf6ef;
+  --color-sand: #efe6d8;
+  --color-sand-dark: #e2d5c1;
+  --color-ink: #1c2422;
+  --color-muted: #5f6b67;
+  --color-forest: #1f3b35;
+  --color-forest-light: #2c5249;
+  --color-forest-dark: #142823;
+  --color-gold: #c9a66b;
+  --color-gold-dark: #a8854b;
+  --color-rose: #b76e79;
+  --color-rose-light: #f3e3e5;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-ivory text-ink font-sans antialiased;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: white;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-gold-dark;
+  }
+
+  .card {
+    @apply rounded-2xl bg-white shadow-[0_1px_2px_rgba(28,36,34,0.04),0_8px_24px_-12px_rgba(28,36,34,0.12)] ring-1 ring-black/5;
+  }
+
+  .input {
+    @apply block w-full rounded-xl border border-sand-dark bg-white px-3.5 py-2.5 text-[15px] text-ink placeholder:text-muted/60 outline-none transition focus:border-forest focus:ring-4 focus:ring-forest/10 disabled:bg-sand/40;
+  }
+
+  .label {
+    @apply mb-1.5 block text-[13px] font-medium text-ink/80;
+  }
+
+  /* Iridescent "bubble" glass button, inspired by Bubble UI */
+  .bubble {
+    position: relative;
+    isolation: isolate;
+    background: radial-gradient(120% 140% at 30% 20%, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.06) 55%),
+      rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.6),
+      inset 0 -6px 14px rgba(255, 255, 255, 0.08),
+      0 10px 30px -10px rgba(0, 0, 0, 0.35);
+  }
+  .bubble::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(from var(--bubble-angle, 0deg), #ffd1dc, #c9a66b, #9be7ff, #c3b1ff, #ffd1dc);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+    animation: bubble-spin 6s linear infinite;
+  }
+}
+
+@property --bubble-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes bubble-spin {
+  to {
+    --bubble-angle: 360deg;
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1.18) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
+}
+
+/* Photo Sphere Viewer */
+.psv-container {
+  border-radius: 1rem;
+}
