@@ -28,3 +28,7 @@ dist-ssr
 .env.*
 !.env.example
 .wrangler
+
+# Raw photos and archives (optimised copies live in public/images)
+foto/
+*.tgz
