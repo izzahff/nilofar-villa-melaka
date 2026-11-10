@@ -1,7 +1,7 @@
 -- Nilofar Villa Melaka, core schema
 -- Run in the Supabase SQL editor (or `supabase db push`).
 
-create extension if not exists btree_gist;
+create extension if not exists btree_gist with schema extensions;
 
 -- ---------------------------------------------------------------
 -- Admins
@@ -206,7 +206,7 @@ create table public.audit_log (
 -- Triggers
 -- ---------------------------------------------------------------
 create or replace function public.touch_updated_at()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = public as $$
 begin
   new.updated_at = now();
   return new;
@@ -252,7 +252,7 @@ create trigger agreements_audit after insert or update or delete on public.agree
 
 -- Bookings and blocks must not overlap each other
 create or replace function public.check_booking_vs_blocks()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = public as $$
 begin
   if new.status in ('pending', 'deposit_paid', 'fully_paid', 'checked_in', 'completed') and exists (
     select 1 from public.blocked_dates b
@@ -268,7 +268,7 @@ create trigger bookings_vs_blocks before insert or update on public.bookings
   for each row execute function public.check_booking_vs_blocks();
 
 create or replace function public.check_block_vs_bookings()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = public as $$
 begin
   if exists (
     select 1 from public.bookings k

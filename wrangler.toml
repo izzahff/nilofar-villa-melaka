@@ -1,8 +1,12 @@
-# Cloudflare Pages config for the R2 upload function.
-# Create the bucket first with `npx wrangler r2 bucket create nilofar-images`.
+# Cloudflare Pages config. Pages reads this file on every Git build, so the
+# R2 binding and the Supabase values for the upload function need no dashboard setup.
 name = "nilofar-villa-melaka"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-11-01"
+
+[vars]
+SUPABASE_URL = "https://lwlfaweqcyutsxfainfy.supabase.co"
+SUPABASE_ANON_KEY = "sb_publishable_nGNEMTZDZStvIGkvUhHj0w_SpqJpYfg"
 
 [[r2_buckets]]
 binding = "IMAGES"

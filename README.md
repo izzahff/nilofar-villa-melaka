@@ -11,7 +11,7 @@ Kos operasi kekal RM0. Hosting di Cloudflare Pages, data di Supabase (free tier)
 
 ## Cuba sekarang (mod demo)
 
-Tanpa sebarang akaun, sistem berjalan dalam mod demo dan semua data disimpan dalam pelayar.
+`npm run dev` berjalan dalam mod demo (data disimpan dalam pelayar). `npm run build` menghasilkan versi produksi yang bersambung ke Supabase.
 
 ```bash
 npm install
@@ -20,7 +20,7 @@ npm run dev
 
 Buka http://localhost:5173 untuk laman pelanggan dan http://localhost:5173/admin untuk admin. Emel demo `admin@nilofar.demo`, kata laluan `nilofar123`.
 
-Setiap kali kod ditolak ke `main`, GitHub Actions menerbitkan mod demo ke GitHub Pages. Hidupkan sekali di **Settings > Pages > Source > GitHub Actions**.
+Setiap kali kod ditolak ke `main`, GitHub Actions menerbitkan mod demo ke GitHub Pages (`vite build --mode demo`). Hidupkan sekali di **Settings > Pages > Source > GitHub Actions**.
 
 ## Struktur
 
@@ -40,57 +40,39 @@ functions/         Cloudflare Pages Functions untuk muat naik R2
 openspec/          spesifikasi dan rekod perubahan (OpenSpec)
 ```
 
-## Pasang untuk produksi
+## Produksi
 
-### 1. Supabase
+Yang sudah siap:
 
-1. Daftar di https://supabase.com dan cipta projek baru (rantau Singapore).
-2. Buka **SQL Editor** dan jalankan fail dalam `supabase/migrations` mengikut turutan, kemudian `supabase/seed.sql`.
-3. Buka **Authentication > Users**, tambah pengguna untuk En. Elyes dan Pn. Yati.
-4. Daftarkan mereka sebagai admin.
+- Projek Supabase `nilofar-villa-melaka` (Singapore), ref `lwlfaweqcyutsxfainfy`. Schema, RLS, storan peribadi, tetapan asal, cuti dan 6 tempahan sedia ada sudah dimasukkan. Edge Function `submit-enquiry` sudah aktif.
+- Bucket R2 `nilofar-images` untuk gambar galeri dan tour 360.
+- `.env.production` dan `wrangler.toml` sudah mengandungi nilai awam Supabase dan binding R2, jadi Cloudflare Pages tidak perlu tetapan tambahan.
+
+### Sambung Cloudflare Pages (sekali sahaja)
+
+1. Cloudflare Dashboard > Workers & Pages > Create > Pages > Connect to Git.
+2. Pilih repo `nilofar-villa-melaka`, framework preset **None**.
+3. Build command `npm run build`, output directory `dist`.
+4. Save and Deploy. Laman akan hidup di `https://nilofar-villa-melaka.pages.dev`.
+
+### Akaun admin
+
+1. Supabase > Authentication > Users > Add user, isi emel dan kata laluan (tick Auto Confirm).
+2. SQL Editor:
 
    ```sql
    insert into public.admins (user_id, display_name)
-   select id, 'En. Elyes' from auth.users where email = 'emel-elyes@contoh.com';
+   select id, 'En. Elyes' from auth.users where email = 'emel@contoh.com';
    ```
 
-5. Pasang Edge Function.
+### Pilihan
 
-   ```bash
-   npx supabase login
-   npx supabase link --project-ref <ref-projek>
-   npx supabase functions deploy submit-enquiry --no-verify-jwt
-   npx supabase secrets set TURNSTILE_SECRET=<kunci-rahsia-turnstile>
-   ```
+- Turnstile anti-spam. Cipta widget di Cloudflare, letak site key sebagai `VITE_TURNSTILE_SITE_KEY` dalam `.env.production`, dan `npx supabase secrets set TURNSTILE_SECRET=...`.
+- GitHub Secrets `SUPABASE_URL`, `SUPABASE_ANON_KEY` dan `SUPABASE_DB_URL` untuk keep-alive dan backup mingguan. GitHub menghentikan jadual selepas 60 hari tanpa aktiviti repo; tekan **Enable** di tab Actions jika berlaku.
 
-### 2. Cloudflare
+### Projek Supabase baru (jika perlu bermula semula)
 
-1. Cipta bucket R2 bernama `nilofar-images` (Dashboard > R2).
-2. **Workers & Pages > Create > Pages > Connect to Git**, pilih repo ini.
-   - Build command `npm run build`
-   - Output directory `dist`
-3. Dalam **Settings > Variables**, isi pemboleh ubah di bawah.
-
-| Nama | Nilai |
-| --- | --- |
-| `VITE_SUPABASE_URL` | URL projek Supabase |
-| `VITE_SUPABASE_ANON_KEY` | anon key Supabase |
-| `VITE_TURNSTILE_SITE_KEY` | site key Turnstile (pilihan) |
-| `VITE_SITE_URL` | domain laman, contoh `https://nilofarvilla.pages.dev` |
-| `SUPABASE_URL` | sama seperti di atas, untuk fungsi muat naik |
-| `SUPABASE_ANON_KEY` | sama seperti di atas |
-
-4. Dalam **Settings > Bindings**, tambah R2 binding bernama `IMAGES` ke bucket `nilofar-images`.
-5. Pilihan. Cipta widget Turnstile di Dashboard > Turnstile untuk anti-spam borang.
-
-### 3. GitHub Secrets
-
-Tambah di **Settings > Secrets and variables > Actions**.
-
-- `SUPABASE_URL` dan `SUPABASE_ANON_KEY` untuk ping dua kali seminggu supaya projek Supabase tidak pause.
-- `SUPABASE_DB_URL` (Supabase > Project Settings > Database > Connection string) untuk backup mingguan.
-
-GitHub menghentikan jadual workflow selepas 60 hari tanpa aktiviti repo. Buka tab Actions dan tekan **Enable** jika ini berlaku.
+Jalankan fail dalam `supabase/migrations` mengikut turutan, kemudian `supabase/seed.sql`, dan `npx supabase functions deploy submit-enquiry --no-verify-jwt`. Kemas kini nilai dalam `.env.production` dan `wrangler.toml`.
 
 ## Peraturan harga
 
