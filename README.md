@@ -20,7 +20,7 @@ npm run dev
 
 Buka http://localhost:5173 untuk laman pelanggan dan http://localhost:5173/admin untuk admin. Emel demo `admin@nilofar.demo`, kata laluan `nilofar123`.
 
-Setiap kali kod ditolak ke `main`, GitHub Actions menerbitkan mod demo ke GitHub Pages (`vite build --mode demo`). Hidupkan sekali di **Settings > Pages > Source > GitHub Actions**.
+Laman produksi: https://nilofar-villa-melaka.pages.dev (Cloudflare Pages, deploy automatik setiap push ke `main`). Workflow demo GitHub Pages kini manual sahaja.
 
 ## Struktur
 

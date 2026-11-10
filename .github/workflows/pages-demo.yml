@@ -2,11 +2,9 @@ name: Deploy demo to GitHub Pages
 
 # Publishes the site in demo mode (no Supabase, data stays in the visitor's
 # browser) at https://<user>.github.io/<repo>/ so the owners can try it.
-# Enable once in Settings > Pages > Source: GitHub Actions.
-# Production runs on Cloudflare Pages (see README).
+# Manual only. To use it, enable Settings > Pages > Source: GitHub Actions,
+# then run it from the Actions tab. Production runs on Cloudflare Pages.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
