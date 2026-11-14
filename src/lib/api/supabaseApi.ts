@@ -191,6 +191,23 @@ export function createSupabaseApi(url: string, anonKey: string): Api {
       if (!res.ok) throw new Error((await res.text()) || `Muat naik gagal (${res.status})`)
       return (await res.json()) as { url: string; key: string }
     },
+    async uploadSplat(file) {
+      const fd = new FormData()
+      fd.append('file', file)
+      fd.append('folder', 'splat')
+      const res = await fetch(uploadBase, { method: 'POST', body: fd, headers: await authHeader() })
+      if (!res.ok) {
+        const body = await res.text()
+        let msg = body
+        try {
+          msg = (JSON.parse(body) as { error?: string }).error ?? body
+        } catch {
+          /* plain text */
+        }
+        throw new Error(msg || `Muat naik gagal (${res.status})`)
+      }
+      return (await res.json()) as { url: string; key: string }
+    },
     async deleteImage(key) {
       if (!key) return
       const res = await fetch(`${uploadBase}?key=${encodeURIComponent(key)}`, {

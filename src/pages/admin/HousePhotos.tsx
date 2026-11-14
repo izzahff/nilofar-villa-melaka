@@ -41,7 +41,7 @@ export function HousePhotos() {
   async function save() {
     setBusy(true)
     try {
-      await api.saveSetting('house_tour', { photos })
+      await api.saveSetting('house_tour', { ...settings.house_tour, photos })
       await reload()
       setDirty(false)
       toast('Gambar bilik disimpan')

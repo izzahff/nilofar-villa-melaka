@@ -9,10 +9,15 @@ export const DEFAULT_ROOM_PHOTOS: Record<string, string[]> = {
   bed2: [img('bilik-chandelier')],
   bed3: [img('bilik-queen')],
   bed4: [],
-  kitchen: [img('dapur'), img('dapur-pinggan'), img('dapur-periuk'), img('dapur-cawan')],
+  kitchen: [img('dapur'), img('dapur-memasak'), img('dapur-pinggan'), img('dapur-periuk'), img('dapur-cawan')],
+  dining2: [img('ruang-makan')],
+  bath1: [img('bilik-air')],
+  family: [img('ruang-atas'), img('tangga')],
   living: [img('ruang-tamu'), img('ruang-tamu-kerusi')],
-  porch: [img('luar-depan'), img('luar-malam'), img('luar-pagar')],
-  garden: [img('taman'), img('patio')],
+  porch: [img('luar-depan'), img('luar-malam'), img('luar-pagar'), img('laman-garaj'), img('pintu-sisi')],
+  garden: [img('laman-belakang'), img('taman'), img('patio'), img('laman-depan'), img('laman-sisi'), img('laman-tepi'), img('laman-sudut')],
+  terrace: [img('patio-jubin')],
+  pool: [img('kolam-renang')],
 }
 
 /**

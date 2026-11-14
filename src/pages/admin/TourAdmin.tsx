@@ -8,6 +8,7 @@ import { compressImage } from '../../lib/image'
 import type { Hotspot, TourScene } from '../../lib/types'
 import { PageHeader } from './AdminApp'
 import { HousePhotos } from './HousePhotos'
+import { SplatScan } from './SplatScan'
 
 export default function TourAdmin() {
   const toast = useToast()
@@ -74,7 +75,7 @@ export default function TourAdmin() {
     <div>
       <PageHeader
         title="Tour maya"
-        subtitle="Pelan 3D rumah sentiasa dipaparkan. Untuk tab 360°, muat naik gambar 360 (equirectangular, nisbah 2:1) bagi setiap ruang, kemudian sambungkan dengan hotspot."
+        subtitle="Tetamu berjalan dalam model 3D rumah, atau imbasan sebenar jika ada. Untuk tab 360°, muat naik gambar 360 (equirectangular, nisbah 2:1) bagi setiap ruang, kemudian sambungkan dengan hotspot."
         actions={
           <Button icon={<ImagePlus className="size-4" />} onClick={() => setAdding(true)}>
             Tambah ruang
@@ -83,6 +84,7 @@ export default function TourAdmin() {
       />
 
       <HousePhotos />
+      <SplatScan />
 
       <h2 className="mb-3 font-display text-2xl font-semibold text-forest">Ruang 360°</h2>
       {scenes.length === 0 ? (

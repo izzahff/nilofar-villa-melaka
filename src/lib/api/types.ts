@@ -106,6 +106,8 @@ export interface Api {
   deleteDocument(doc: DocumentRow): Promise<void>
   uploadImage(file: File, folder: 'gallery' | 'tour'): Promise<{ url: string; key: string | null }>
   deleteImage(key: string | null): Promise<void>
+  /** Uploads a Gaussian splat scan for the 3D tour. `key` is null when the file is not stored remotely. */
+  uploadSplat(file: File): Promise<{ url: string; key: string | null }>
   saveMedia(item: Partial<MediaItem> & { url: string }): Promise<MediaItem>
   deleteMedia(item: MediaItem): Promise<void>
   saveTourScene(scene: Partial<TourScene> & { name: string; image_url: string }): Promise<TourScene>

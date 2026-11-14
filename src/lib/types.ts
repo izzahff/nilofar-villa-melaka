@@ -243,9 +243,35 @@ export interface TemplateSettings {
   availability_reply: string
 }
 
+export interface SplatSettings {
+  /** .spz, .ply, .splat, .ksplat or .sog file */
+  url: string
+  /** Rotate 180 degrees about X (most phone scans need this) */
+  flip: boolean
+  scale: number
+  /** Raise or lower the scan so its floor sits at 0 */
+  y: number
+  /** Download size shown to guests before loading */
+  sizeMb?: number
+  /** R2 key when the file was uploaded here */
+  key?: string | null
+  /** File type when the link has no extension (blob links in demo mode) */
+  type?: string
+}
+
+export interface SavedView {
+  name: string
+  pos: [number, number, number]
+  target: [number, number, number]
+}
+
 export interface HouseTourSettings {
   /** Photo URLs per room id from src/lib/house.ts */
   photos: Record<string, string[]>
+  /** Gaussian splat scan of the villa, shown instead of the model when set */
+  splat?: SplatSettings | null
+  /** Views saved by the admin inside the scan */
+  views?: SavedView[]
 }
 
 export interface AllSettings {

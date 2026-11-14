@@ -433,6 +433,10 @@ export function createDemoApi(): Api {
       return { url: await shrinkImage(file, 1600), key: null }
     },
     async deleteImage() {},
+    async uploadSplat(file) {
+      // Demo mode keeps the scan in this tab only
+      return { url: URL.createObjectURL(file), key: null }
+    },
     async saveMedia(item) {
       return tx((s) => {
         const existing = item.id ? s.media.find((m) => m.id === item.id) : undefined
