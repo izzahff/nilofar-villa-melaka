@@ -1,5 +1,5 @@
-import { Box, Compass, Hand, Info, PlayCircle } from 'lucide-react'
-import { motion } from 'motion/react'
+import { Box, Compass, Hand, Info, Pause, Play, PlayCircle } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { PanoViewer } from '../../components/PanoViewer'
 import { TourStage } from '../../components/tour/TourStage'
@@ -84,39 +84,51 @@ export default function Tour() {
 }
 
 function PanoTour({ scenes }: { scenes: TourScene[] }) {
+  const reduce = useReducedMotion() ?? false
   const [current, setCurrent] = useState<string>(scenes[0].id)
-  const [hint, setHint] = useState(true)
+  const [autoplay, setAutoplay] = useState(false)
+  const idx = Math.max(0, scenes.findIndex((s) => s.id === current))
+  const scene = scenes[idx]
 
+  // Guided tour: move to the next room every 14 seconds
   useEffect(() => {
-    const t = setTimeout(() => setHint(false), 4000)
+    if (!autoplay) return
+    const t = setTimeout(() => setCurrent(scenes[(idx + 1) % scenes.length].id), 14000)
     return () => clearTimeout(t)
-  }, [current])
-
-  const scene = scenes.find((s) => s.id === current) ?? scenes[0]
+  }, [autoplay, idx, scenes])
 
   return (
     <>
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-        <p className="font-display text-2xl">{scene.name}</p>
-        <p className="flex items-center gap-2 text-sm text-white/60">
-          <Hand className="size-4" /> Seret untuk melihat sekeliling. Tekan label untuk ke ruang lain.
-        </p>
-      </div>
       <div className="relative">
-        <PanoViewer scene={scene} onNavigate={setCurrent} className="h-[68svh] min-h-[380px] w-full overflow-hidden rounded-2xl" />
-        {hint && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pointer-events-none absolute inset-0 grid place-items-center">
-            <motion.div animate={{ x: [-30, 30, -30] }} transition={{ duration: 2.2, repeat: Infinity }} className="bubble grid size-16 place-items-center rounded-full">
-              <Hand className="size-7" />
+        <PanoViewer scene={scene} scenes={scenes} intro reduceMotion={reduce} onNavigate={setCurrent} className="h-[74svh] min-h-[420px] w-full overflow-hidden rounded-2xl lg:h-[78svh]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-4 sm:p-5">
+          <AnimatePresence mode="wait">
+            <motion.div key={scene.id} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="min-w-0 drop-shadow-[0_2px_12px_rgba(0,0,0,0.5)]">
+              <p className="eyebrow text-gold">
+                {idx + 1} / {scenes.length}
+              </p>
+              <p className="font-display text-3xl text-white italic sm:text-4xl">{scene.name}</p>
             </motion.div>
-          </motion.div>
-        )}
+          </AnimatePresence>
+          <button
+            onClick={() => setAutoplay((a) => !a)}
+            aria-pressed={autoplay}
+            className={cx('pointer-events-auto flex h-10 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold shadow-lg backdrop-blur transition', autoplay ? 'bg-gold text-forest-dark' : 'bg-forest-dark/60 text-white ring-1 ring-white/25')}
+          >
+            {autoplay ? <Pause className="size-4" /> : <Play className="size-4" />} Tour automatik
+          </button>
+        </div>
       </div>
-      <div className="no-scrollbar -mx-5 mt-5 flex gap-2 overflow-x-auto px-5 pb-2">
-        {scenes.map((s) => (
-          <button key={s.id} onClick={() => setCurrent(s.id)} className={cx('group shrink-0 overflow-hidden rounded-xl ring-2 transition', s.id === scene.id ? 'ring-gold' : 'ring-transparent opacity-70 hover:opacity-100')}>
-            <div className="h-16 w-28 bg-cover bg-center" style={{ backgroundImage: `url(${s.image_url})` }} />
-            <p className="bg-white/5 px-2 py-1 text-xs">{s.name}</p>
+      <p className="mt-3 flex items-center gap-2 px-2 text-sm text-white/60 sm:px-0">
+        <Hand className="size-4 shrink-0" /> Seret untuk melihat sekeliling. Tekan anak panah emas untuk masuk ke ruang lain. Di telefon, tekan ikon telefon untuk melihat dengan menggerakkan telefon.
+      </p>
+      <div className="no-scrollbar -mx-3 mt-4 flex gap-3 overflow-x-auto px-3 pb-2 sm:mx-0 sm:px-0">
+        {scenes.map((s, i) => (
+          <button key={s.id} onClick={() => setCurrent(s.id)} className={cx('group w-36 shrink-0 text-left transition', s.id === scene.id ? '' : 'opacity-65 hover:opacity-100')}>
+            <div className={cx('aspect-[16/10] overflow-hidden rounded-xl bg-cover bg-center ring-2 transition', s.id === scene.id ? 'ring-gold' : 'ring-transparent')} style={{ backgroundImage: `url(${s.image_url})` }} />
+            <p className="mt-1.5 truncate text-xs">
+              <span className="text-gold">{String(i + 1).padStart(2, '0')}</span> {s.name}
+            </p>
           </button>
         ))}
       </div>

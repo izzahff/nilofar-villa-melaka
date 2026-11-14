@@ -124,7 +124,7 @@ export const TourStage = forwardRef<TourViewerHandle, Props>(function TourStage(
   const modeLabel = mode === 'walk' ? 'Jalan dalam rumah' : mode === 'fly' ? 'Terbang bebas' : 'Pandangan orbit'
 
   return (
-    <div ref={stage} className={cx('relative overflow-hidden bg-gradient-to-b from-[#dfe9e1] to-[#f4efe5] text-forest-dark', full ? 'h-screen w-screen' : 'rounded-2xl', className)}>
+    <div ref={stage} className={cx('relative overflow-hidden bg-gradient-to-b from-[#ece3d2] to-[#f8f4ec] text-forest-dark', full ? 'h-screen w-screen' : 'rounded-2xl', className)}>
       <TourViewer
         ref={viewer}
         mode={mode}

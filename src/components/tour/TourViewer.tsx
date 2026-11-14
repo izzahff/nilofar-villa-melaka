@@ -49,7 +49,7 @@ interface Props {
 }
 
 const M = (mm: number) => mm / 1000
-const GOLD = new THREE.Color(0xc9a66b)
+const GOLD = new THREE.Color(0xe5cf72)
 const SKY = new THREE.Color(0xcfe3ee)
 const WALK_SPEED = 2.3
 const RUN_SPEED = 4.8
@@ -101,7 +101,7 @@ export const TourViewer = forwardRef<TourViewerHandle, Props>(function TourViewe
     try {
       renderer = new THREE.WebGLRenderer({ antialias: !splat, alpha: true })
     } catch {
-      el.innerHTML = '<p style="padding:2rem;text-align:center;color:#5f6b67">Pelayar ini tidak menyokong paparan 3D.</p>'
+      el.innerHTML = '<p style="padding:2rem;text-align:center;color:#6e625a">Pelayar ini tidak menyokong paparan 3D.</p>'
       return
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, splat ? 1.5 : 2))
@@ -590,9 +590,9 @@ export const TourViewer = forwardRef<TourViewerHandle, Props>(function TourViewe
         b.style.pointerEvents = 'auto'
         const sel = id === selectedId
         b.style.zIndex = sel ? '3' : r.floor === 1 ? '2' : '1'
-        b.style.backgroundColor = sel ? '#c9a66b' : 'rgba(255,255,255,0.92)'
-        b.style.color = sel ? '#142823' : '#1f3b35'
-        b.style.setProperty('--tw-ring-color', sel ? '#a8854b' : 'rgba(0,0,0,0.08)')
+        b.style.backgroundColor = sel ? '#e5cf72' : 'rgba(255,255,255,0.92)'
+        b.style.color = sel ? '#2b1a11' : '#4b2e1e'
+        b.style.setProperty('--tw-ring-color', sel ? '#9c7f24' : 'rgba(0,0,0,0.08)')
       }
     }
 

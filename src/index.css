@@ -1,25 +1,29 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
-@import '@fontsource/cormorant-garamond/500.css';
-@import '@fontsource/cormorant-garamond/600.css';
-@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource-variable/playfair-display/wght.css';
+@import '@fontsource-variable/playfair-display/wght-italic.css';
 
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-display: 'Playfair Display Variable', ui-serif, Georgia, serif;
 
-  --color-ivory: #faf6ef;
-  --color-sand: #efe6d8;
-  --color-sand-dark: #e2d5c1;
-  --color-ink: #1c2422;
-  --color-muted: #5f6b67;
-  --color-forest: #1f3b35;
-  --color-forest-light: #2c5249;
-  --color-forest-dark: #142823;
-  --color-gold: #c9a66b;
-  --color-gold-dark: #a8854b;
-  --color-rose: #b76e79;
-  --color-rose-light: #f3e3e5;
+  /* Luxury and practical palette (Nov 2026): ivory, espresso, butter, powder blue, terracotta.
+     Token names stay from the first green theme so components keep their roles:
+     forest is the primary dark colour, gold the accent, rose the warm alert colour. */
+  --color-ivory: #fbf8f1;
+  --color-sand: #f2eadb;
+  --color-sand-dark: #e4d7c0;
+  --color-ink: #2a1d15;
+  --color-muted: #6e625a;
+  --color-forest: #4b2e1e;
+  --color-forest-light: #6a4430;
+  --color-forest-dark: #2b1a11;
+  --color-gold: #e5cf72;
+  --color-gold-dark: #9c7f24;
+  --color-rose: #b4553a;
+  --color-rose-light: #f6e2d9;
+  --color-sky: #cbd6e3;
+  --color-sky-dark: #8fa3bb;
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -38,12 +42,20 @@ h2,
 h3,
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  font-variant-numeric: lining-nums;
 }
 
 ::selection {
   background: var(--color-gold);
-  color: white;
+  color: var(--color-forest-dark);
+}
+
+/* Large display words set in italic, as in the inspiration sites */
+em,
+.italic-display {
+  font-style: italic;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -99,7 +111,7 @@ h3,
     inset: 0;
     border-radius: inherit;
     padding: 1.5px;
-    background: conic-gradient(from var(--bubble-angle, 0deg), #ffd1dc, #c9a66b, #9be7ff, #c3b1ff, #ffd1dc);
+    background: conic-gradient(from var(--bubble-angle, 0deg), #e5cf72, #fff4cf, #cbd6e3, #b4553a, #e5cf72);
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
@@ -142,7 +154,70 @@ h3,
   padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
 }
 
-/* Photo Sphere Viewer */
+/* Photo Sphere Viewer, dressed in the villa palette */
 .psv-container {
   border-radius: 1rem;
+  background: var(--color-forest-dark);
+}
+.psv-navbar {
+  background: linear-gradient(to top, rgba(43, 26, 17, 0.75), rgba(43, 26, 17, 0));
+}
+.psv-button {
+  color: #fff;
+}
+.psv-button--active {
+  color: var(--color-gold);
+}
+.psv-loader {
+  color: var(--color-gold);
+}
+.nv-hotspot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px 5px 5px;
+  border-radius: 999px;
+  background: rgba(43, 26, 17, 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(229, 207, 114, 0.55);
+  color: #fff;
+  font: 500 13px 'Inter Variable', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.55);
+  transition: transform 0.25s var(--ease-out-soft), background 0.25s;
+}
+.nv-hotspot:hover {
+  transform: scale(1.06);
+  background: rgba(43, 26, 17, 0.82);
+}
+.nv-hotspot-dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-forest-dark);
+}
+.nv-hotspot-dot::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 2px solid var(--color-gold);
+  animation: nv-ping 2.2s var(--ease-out-soft) infinite;
+}
+@keyframes nv-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
 }

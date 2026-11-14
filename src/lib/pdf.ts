@@ -4,10 +4,10 @@ import { fmtDate, fmtDateTime, PAYMENT_LABEL, rm2, TYPE_LABEL } from './format'
 import { summarize } from './money'
 import type { Agreement, AllSettings, Booking, Payment } from './types'
 
-const FOREST: [number, number, number] = [31, 59, 53]
-const GOLD: [number, number, number] = [201, 166, 107]
-const INK: [number, number, number] = [28, 36, 34]
-const MUTED: [number, number, number] = [95, 107, 103]
+const FOREST: [number, number, number] = [75, 46, 30]
+const GOLD: [number, number, number] = [201, 168, 74]
+const INK: [number, number, number] = [42, 29, 21]
+const MUTED: [number, number, number] = [110, 98, 90]
 
 function header(doc: jsPDF, s: AllSettings, title: string, sub: string) {
   const w = doc.internal.pageSize.getWidth()
@@ -16,7 +16,7 @@ function header(doc: jsPDF, s: AllSettings, title: string, sub: string) {
   // mark
   doc.setFillColor(...GOLD)
   doc.circle(20, 17, 7, 'F')
-  doc.setFillColor(183, 110, 121)
+  doc.setFillColor(180, 85, 58)
   doc.circle(20, 20, 3.5, 'F')
   doc.setTextColor(255, 255, 255)
   doc.setFont('times', 'bold')

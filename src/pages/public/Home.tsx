@@ -11,8 +11,8 @@ import {
   MapPin,
   Navigation,
   ShieldCheck,
-  Sofa,
   Sparkles,
+  Sofa,
   Users,
   Utensils,
   WashingMachine,
@@ -58,100 +58,80 @@ function Hero() {
   const ref = useRef<HTMLElement>(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const yBg = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '25%'])
-  const yText = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '40%'])
+  const yBg = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '18%'])
+  const yText = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '30%'])
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0])
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120])
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -220])
-
-  const words = settings.site.name.split(' ')
+  const ease = [0.22, 1, 0.36, 1] as const
+  const [first, ...rest] = settings.site.name.split(' ')
 
   return (
-    <section ref={ref} className="relative flex min-h-[100svh] items-end overflow-hidden bg-forest-dark lg:items-center">
-      {/* Mobile and tablet: full bleed portrait photo */}
-      <motion.div style={{ y: yBg }} className="absolute inset-0 lg:hidden">
-        <img src={HERO_IMAGE} alt="Nilofar Villa Melaka dari hadapan" className="size-full object-cover [animation:kenburns_18s_ease-in-out_infinite_alternate]" fetchPriority="high" />
+    <section ref={ref} className="relative flex min-h-[100svh] flex-col overflow-hidden bg-forest-dark text-white">
+      {/* Full bleed photo: portrait front view on phones, the lawn and gable on wide screens */}
+      <motion.div style={{ y: yBg }} className="absolute inset-0">
+        <picture>
+          <source media="(min-width: 1024px)" srcSet={IMG.lawn} />
+          <img src={HERO_IMAGE} alt="Nilofar Villa Melaka" className="size-full scale-105 object-cover [animation:kenburns_22s_ease-in-out_infinite_alternate]" fetchPriority="high" />
+        </picture>
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-t from-forest-dark via-forest-dark/55 to-forest-dark/20 lg:hidden" />
+      <div className="absolute inset-0 bg-gradient-to-b from-forest-dark/70 via-forest-dark/10 to-forest-dark/85" />
 
-      {/* Desktop: soft glow background */}
-      <div className="absolute inset-0 hidden lg:block">
-        <div className="absolute -left-40 top-1/4 size-[520px] rounded-full bg-gold/10 blur-[120px]" />
-        <div className="absolute right-0 bottom-0 size-[480px] rounded-full bg-rose/15 blur-[120px]" />
-      </div>
-
-      <div className="container-x relative z-10 grid w-full items-center gap-10 pt-28 pb-24 lg:grid-cols-[1.05fr_1fr] lg:py-32">
-        <motion.div style={{ y: yText, opacity: fade }}>
-          <motion.p className="eyebrow mb-5 text-gold" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-            Bemban, Jasin · Melaka
-          </motion.p>
-          <h1 className="font-display text-[3.4rem] leading-[0.95] font-semibold text-white sm:text-7xl lg:text-[5.6rem]">
-            {words.map((w, i) => (
-              <motion.span
-                key={i}
-                className="mr-[0.22em] inline-block"
-                initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                transition={{ delay: 0.25 + i * 0.12, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {i === 1 ? <em className="font-medium text-gold italic">{w}</em> : w}
-              </motion.span>
-            ))}
-          </h1>
-          <motion.p className="mt-6 max-w-lg text-[16px] leading-relaxed text-white/80 sm:text-lg" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.75 }}>
-            {settings.site.tagline}. Kolam renang peribadi berair terjun, 5 bilik dan ruang yang selesa untuk {settings.site.capacity_ideal} hingga {settings.site.capacity_max} orang.
-          </motion.p>
-          <motion.div className="mt-9 flex flex-wrap gap-3" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}>
-            <Link to="/tempah" className="bubble inline-flex h-13 items-center gap-2.5 rounded-full px-7 text-[15px] font-semibold text-white transition hover:scale-[1.03]">
-              <CalendarDays className="size-[18px]" /> Semak tarikh kosong
-            </Link>
-            <a href="#villa" className="inline-flex h-13 items-center gap-2 rounded-full px-6 text-[15px] font-medium text-white/85 ring-1 ring-white/25 transition hover:bg-white/10">
-              Terokai villa <ArrowRight className="size-4" />
-            </a>
-          </motion.div>
-          <motion.ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-white/70" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }}>
-            <li className="flex items-center gap-1.5">
-              <BedDouble className="size-4 text-gold" /> 5 bilik
-            </li>
-            <li className="flex items-center gap-1.5">
-              <Waves className="size-4 text-gold" /> Kolam peribadi
-            </li>
-            <li className="flex items-center gap-1.5">
-              <Car className="size-4 text-gold" /> 10 min ke Ayer Keroh
-            </li>
-          </motion.ul>
+      {/* Top: promise and the main action, centred like a boutique hotel */}
+      <motion.div style={{ opacity: fade }} className="container-x relative z-10 pt-28 text-center sm:pt-32">
+        <motion.p className="eyebrow text-gold" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+          Homestay banglo · Bemban, Jasin · Melaka
+        </motion.p>
+        <motion.p className="mx-auto mt-4 max-w-xl font-display text-xl leading-snug text-white/90 italic sm:text-2xl" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.9, ease }}>
+          {settings.site.tagline}. Kolam peribadi berair terjun, 5 bilik, untuk {settings.site.capacity_ideal} hingga {settings.site.capacity_max} orang.
+        </motion.p>
+        <motion.div className="mt-7 flex flex-wrap justify-center gap-3" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+          <Link to="/tempah" className="inline-flex h-12 items-center gap-2.5 rounded-full bg-gold px-7 text-[15px] font-semibold text-forest-dark shadow-lg shadow-black/20 transition hover:scale-[1.03] hover:bg-[#ecd98a]">
+            <CalendarDays className="size-[18px]" /> Semak tarikh kosong
+          </Link>
+          <Link to="/tour" className="inline-flex h-12 items-center gap-2 rounded-full px-6 text-[15px] font-medium text-white ring-1 ring-white/40 backdrop-blur-sm transition hover:bg-white/10">
+            Tour maya <ArrowRight className="size-4" />
+          </Link>
         </motion.div>
+      </motion.div>
 
-        {/* Desktop collage */}
-        <div className="relative hidden h-[620px] lg:block">
-          <motion.div style={{ y: y1 }} className="absolute top-0 right-6 h-[560px] w-[330px]" initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}>
-            <div className="size-full overflow-hidden rounded-[2rem] shadow-2xl ring-1 ring-white/10">
-              <img src={IMG.exterior} alt="Hadapan villa" className="size-full object-cover [animation:kenburns_20s_ease-in-out_infinite_alternate]" />
-            </div>
-          </motion.div>
-          <motion.div style={{ y: y2 }} className="absolute top-24 left-0 h-[300px] w-[220px]" initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.55, duration: 1 }}>
-            <div className="size-full overflow-hidden rounded-[1.6rem] shadow-2xl ring-4 ring-forest-dark">
-              <img src={IMG.living} alt="Ruang tamu" className="size-full object-cover" />
-            </div>
-          </motion.div>
-          <motion.div style={{ y: y1 }} className="absolute bottom-0 left-20 h-[220px] w-[260px]" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75, duration: 1 }}>
-            <div className="size-full overflow-hidden rounded-[1.6rem] shadow-2xl ring-4 ring-forest-dark">
-              <img src={IMG.master} alt="Bilik tidur" className="size-full object-cover" />
-            </div>
-          </motion.div>
-          <motion.div
-            className="bubble absolute top-10 left-36 flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-medium text-white"
-            animate={reduce ? undefined : { y: [0, -8, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+      {/* Bottom: the name set huge, with the address underneath */}
+      <motion.div style={{ y: yText }} className="relative z-10 mt-auto px-4 pb-14 sm:px-8 sm:pb-16">
+        <h1 className="relative mx-auto flex max-w-[1400px] flex-col-reverse text-center leading-[0.85] sm:block">
+          <motion.span
+            className="block pb-[0.08em] font-display text-[26vw] font-medium tracking-[-0.04em] text-gold italic sm:text-[22vw] lg:text-[17.5vw]"
+            initial={{ opacity: 0, y: 60, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ delay: 0.2, duration: 1.2, ease }}
           >
-            <Sparkles className="size-4 text-gold" /> Serba baru
-          </motion.div>
-        </div>
-      </div>
+            {first}
+          </motion.span>
+          <motion.span
+            className="mb-2 font-sans text-[3.2vw] sm:absolute sm:top-[0.6em] sm:right-[4%] sm:mb-0 font-medium tracking-[0.3em] text-white uppercase sm:text-[2vw] lg:text-[1.35vw]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
+          >
+            {rest.join(' ')}
+          </motion.span>
+        </h1>
+        <motion.ul className="mt-5 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-white/80" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.05 }}>
+          <li className="flex items-center gap-1.5">
+            <MapPin className="size-4 text-gold" /> Taman Anjung Gapam, Bemban, Jasin
+          </li>
+          <li className="flex items-center gap-1.5">
+            <BedDouble className="size-4 text-gold" /> 5 bilik · 3 bilik air
+          </li>
+          <li className="flex items-center gap-1.5">
+            <Waves className="size-4 text-gold" /> Kolam peribadi
+          </li>
+          <li className="flex items-center gap-1.5">
+            <Car className="size-4 text-gold" /> 10 min ke Ayer Keroh
+          </li>
+        </motion.ul>
+      </motion.div>
 
-      <motion.a href="#villa" style={{ opacity: fade }} className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-white/60" aria-label="Skrol ke bawah">
-        <motion.span className="block" animate={reduce ? undefined : { y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-          <ChevronDown className="size-6" />
+      <motion.a href="#villa" style={{ opacity: fade }} className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 text-white/60" aria-label="Skrol ke bawah">
+        <motion.span className="block" animate={reduce ? undefined : { y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+          <ChevronDown className="size-5" />
         </motion.span>
       </motion.a>
     </section>
@@ -361,7 +341,7 @@ function PoolBand() {
   const { settings } = useSettings()
   const reduce = useReducedMotion()
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#0f4c5c] to-[#0b3440] py-20 text-white sm:py-28">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#2c3e52] to-[#1b2836] py-20 text-white sm:py-28">
       <svg className="absolute inset-x-0 top-0 h-24 w-[200%] text-forest-dark" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
         <motion.path
           fill="currentColor"
@@ -382,15 +362,15 @@ function PoolBand() {
         ))}
       <div className="container-x relative grid items-center gap-10 lg:grid-cols-2">
         <div>
-          <p className="eyebrow mb-3 text-[#9be7ff]">Kolam renang peribadi</p>
+          <p className="eyebrow mb-3 text-sky">Kolam renang peribadi</p>
           <h2 className="font-display text-4xl leading-[1.05] font-semibold sm:text-6xl">
-            Berenang sepuasnya, <em className="text-[#9be7ff] italic">tanpa orang luar</em>
+            Berenang sepuasnya, <em className="text-sky italic">tanpa orang luar</em>
           </h2>
           <p className="mt-5 max-w-lg text-white/75">{settings.site.pool}. Air terjun kecil menambah suasana resort di halaman rumah anda sendiri.</p>
         </div>
         <Reveal className="rounded-3xl bg-white/8 p-6 ring-1 ring-white/15 backdrop-blur-md">
           <p className="mb-4 flex items-center gap-2 font-semibold">
-            <ShieldCheck className="size-5 text-[#9be7ff]" /> Keselamatan kolam
+            <ShieldCheck className="size-5 text-sky" /> Keselamatan kolam
           </p>
           <ul className="space-y-3 text-[14px] text-white/80">
             <li>Tiada lifeguard. Keselamatan adalah tanggungjawab tetamu.</li>
