@@ -19,6 +19,7 @@
     "@photo-sphere-viewer/core": "^5.15.1",
     "@photo-sphere-viewer/markers-plugin": "^5.15.1",
     "@supabase/supabase-js": "^2.119.0",
+    "@types/three": "^0.185.4",
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
     "jspdf": "^4.2.1",
@@ -27,7 +28,8 @@
     "motion": "^14.9.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-router-dom": "^7.18.5"
+    "react-router-dom": "^7.18.5",
+    "three": "^0.185.1"
   },
   "devDependencies": {
     "@fission-ai/openspec": "^1.16.0",

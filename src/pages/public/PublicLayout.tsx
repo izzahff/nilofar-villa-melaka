@@ -16,7 +16,7 @@ const NAV = [
   { href: '/#galeri', label: 'Galeri' },
   { href: '/#lokasi', label: 'Lokasi' },
   { href: '/#harga', label: 'Harga' },
-  { href: '/tour', label: 'Tour 360°' },
+  { href: '/tour', label: 'Tour maya' },
 ]
 
 export function PublicLayout() {

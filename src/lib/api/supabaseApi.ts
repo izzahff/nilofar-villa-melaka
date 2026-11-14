@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { PUBLIC_SETTING_KEYS } from '../types'
 import type { AllSettings, BlockedDate, Booking, DocumentRow, Holiday, MediaItem, Payment, SettingKey, TourScene } from '../types'
 import type { Api, BookingForm, SessionUser } from './types'
 
@@ -113,7 +114,7 @@ export function createSupabaseApi(url: string, anonKey: string): Api {
       return settingsFromRows(check(await sb.from('settings').select('key, value')) ?? [])
     },
     async saveSetting(key: SettingKey, value) {
-      const isPublic = ['site', 'prices', 'contacts', 'content', 'rules'].includes(key)
+      const isPublic = PUBLIC_SETTING_KEYS.includes(key)
       check(await sb.from('settings').upsert({ key, value, is_public: isPublic }))
     },
     async listBookings() {

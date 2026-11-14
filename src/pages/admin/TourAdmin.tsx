@@ -7,6 +7,7 @@ import { useAsync } from '../../lib/hooks'
 import { compressImage } from '../../lib/image'
 import type { Hotspot, TourScene } from '../../lib/types'
 import { PageHeader } from './AdminApp'
+import { HousePhotos } from './HousePhotos'
 
 export default function TourAdmin() {
   const toast = useToast()
@@ -72,8 +73,8 @@ export default function TourAdmin() {
   return (
     <div>
       <PageHeader
-        title="Tour 360°"
-        subtitle="Muat naik gambar 360 (equirectangular, nisbah 2:1) bagi setiap ruang, kemudian sambungkan dengan hotspot."
+        title="Tour maya"
+        subtitle="Pelan 3D rumah sentiasa dipaparkan. Untuk tab 360°, muat naik gambar 360 (equirectangular, nisbah 2:1) bagi setiap ruang, kemudian sambungkan dengan hotspot."
         actions={
           <Button icon={<ImagePlus className="size-4" />} onClick={() => setAdding(true)}>
             Tambah ruang
@@ -81,11 +82,14 @@ export default function TourAdmin() {
         }
       />
 
+      <HousePhotos />
+
+      <h2 className="mb-3 font-display text-2xl font-semibold text-forest">Ruang 360°</h2>
       {scenes.length === 0 ? (
         <Empty
           icon={<Compass className="size-8" />}
           title="Belum ada ruang 360"
-          text="Ambil gambar 360 dengan kamera 360 atau aplikasi Google Street View / Panorama di telefon, kemudian muat naik di sini. Laman tour akan menunjukkan 'Akan datang' sehingga ada ruang."
+          text="Ambil gambar 360 dengan kamera 360 (contoh Insta360 atau Ricoh Theta), atau pinjam/sewa sehari. Eksport sebagai equirectangular 2:1 dan muat naik di sini. Sehingga itu, tetamu melihat pelan 3D rumah."
           action={<Button onClick={() => setAdding(true)}>Tambah ruang pertama</Button>}
         />
       ) : (

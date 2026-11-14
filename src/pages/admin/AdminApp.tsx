@@ -38,7 +38,7 @@ const NAV = [
   { to: '/admin/tempahan', label: 'Tempahan', icon: ListChecks },
   { to: '/admin/laporan', label: 'Laporan', icon: BarChart3 },
   { to: '/admin/media', label: 'Galeri', icon: Images },
-  { to: '/admin/tour', label: 'Tour 360°', icon: Compass },
+  { to: '/admin/tour', label: 'Tour maya', icon: Compass },
   { to: '/admin/tetapan', label: 'Tetapan', icon: Settings },
   { to: '/admin/log', label: 'Log aktiviti', icon: History },
 ]

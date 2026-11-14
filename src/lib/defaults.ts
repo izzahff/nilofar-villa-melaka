@@ -1,5 +1,20 @@
 import type { AllSettings } from './types'
 
+const img = (name: string) => `/images/${name}.webp`
+
+/** Photos per room id in src/lib/house.ts, shown in the 3D house tour. */
+export const DEFAULT_ROOM_PHOTOS: Record<string, string[]> = {
+  master: [img('bilik-king'), img('bilik-kipas')],
+  bed5: [img('bilik-king-2')],
+  bed2: [img('bilik-chandelier')],
+  bed3: [img('bilik-queen')],
+  bed4: [],
+  kitchen: [img('dapur'), img('dapur-pinggan'), img('dapur-periuk'), img('dapur-cawan')],
+  living: [img('ruang-tamu'), img('ruang-tamu-kerusi')],
+  porch: [img('luar-depan'), img('luar-malam'), img('luar-pagar')],
+  garden: [img('taman'), img('patio')],
+}
+
 /**
  * Default settings. These seed the database (supabase/seed.sql is generated
  * from this file by `npm run gen:seed`) and power demo mode.
@@ -182,5 +197,8 @@ export const DEFAULT_SETTINGS: AllSettings = {
       'Assalamualaikum {nama}. Selamat datang ke Nilofar Villa Melaka!\n\nCheck in: {checkin}, {masa_checkin}\nCheck out: {checkout}, {masa_checkout}\nLokasi: {peta}\n\nSila patuhi peraturan rumah dan awasi kanak-kanak di kolam. Selamat bercuti!',
     thanks:
       'Terima kasih {nama} kerana menginap di Nilofar Villa Melaka. Semoga percutian keluarga menyeronokkan. Deposit akan dipulangkan dalam 24 jam jika semuanya baik. Jemput follow kami di TikTok dan Facebook, dan datang lagi!',
+  },
+  house_tour: {
+    photos: DEFAULT_ROOM_PHOTOS,
   },
 }

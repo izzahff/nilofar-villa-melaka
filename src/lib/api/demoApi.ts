@@ -207,7 +207,7 @@ export function createDemoApi(): Api {
     mode: 'demo',
 
     async getPublicSettings() {
-      return delay(read((s) => ({ site: s.settings.site, prices: s.settings.prices, contacts: s.settings.contacts, content: s.settings.content, rules: s.settings.rules })))
+      return delay(read((s) => ({ site: s.settings.site, prices: s.settings.prices, contacts: s.settings.contacts, content: s.settings.content, rules: s.settings.rules, house_tour: s.settings.house_tour })))
     },
     async getHolidays() {
       return delay(read((s) => [...s.holidays].sort((a, b) => a.date.localeCompare(b.date))))

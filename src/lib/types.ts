@@ -243,6 +243,11 @@ export interface TemplateSettings {
   availability_reply: string
 }
 
+export interface HouseTourSettings {
+  /** Photo URLs per room id from src/lib/house.ts */
+  photos: Record<string, string[]>
+}
+
 export interface AllSettings {
   site: SiteSettings
   prices: PriceSettings
@@ -251,8 +256,9 @@ export interface AllSettings {
   rules: RuleSettings
   bank: BankSettings
   templates: TemplateSettings
+  house_tour: HouseTourSettings
 }
 
 export type SettingKey = keyof AllSettings
 
-export const PUBLIC_SETTING_KEYS: SettingKey[] = ['site', 'prices', 'contacts', 'content', 'rules']
+export const PUBLIC_SETTING_KEYS: SettingKey[] = ['site', 'prices', 'contacts', 'content', 'rules', 'house_tour']
